@@ -33,7 +33,7 @@ const AllProducts = () => {
       try{
         if(selectProducts){
           const res = await axios(
-            'https://dummyjson.com/products/category/${selectProducts}'
+            `https://dummyjson.com/products/category/${selectProducts}`
           );
           setProducts(res.data.products);
         }
@@ -67,8 +67,8 @@ const AllProducts = () => {
       {
         allCategory.map((allProducts, index) =>(
           <div className=" border" key={index}>
-          <button className="border bg-black text-white px-2 py-2 mt-5" onClick={()=>filterProducts(allProducts)}>
-            {allProducts}
+          <button className="border bg-black text-white px-2 py-2 mt-5" onClick={()=>filterProducts(allProducts.slug)}>
+            {allProducts.name}
             </button>
             </div>
            
