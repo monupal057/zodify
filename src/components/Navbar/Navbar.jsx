@@ -28,21 +28,21 @@ const Navbar = () => {
         <ul className="flex items-center text-ig justify-center font-semibold">
           <Link to="/"><li className="mr-5 hover:text-gray-900 cursor-pointer">Home</li></Link>
        
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">All products</li> 
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">Mens</li>
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">Kids</li>
+          <Link to="/AllProducts" className="mr-5 hover:text-gray-900 cursor-pointer">All products</Link> 
+          <Link className="mr-5 hover:text-gray-900 cursor-pointer">Mens</Link>
+          <Link className="mr-5 hover:text-gray-900 cursor-pointer">Kids</Link>
         </ul>
         </div>
-          {
+          { 
           isOpen? <div>
         <ul className="flex flex-col gap-10 text-2xl absolute top-[73px] left-0 h-screen w-full z-10 bg-red-500 text-white items-center justify-center font-semibold">
           <Link to="/"><li className="mr-5 hover:text-gray-900 cursor-pointer">Home</li></Link>
-          <Link to="/allproducts"> 
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">All products</li>
-          </Link>
+          {/* <Link to="/allproducts">  */}
+          <Link  to="/AllProducts" className="mr-5 hover:text-gray-900 cursor-pointer">All products</Link>
+          {/* </Link> */}
            
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">Mens</li>
-          <li className="mr-5 hover:text-gray-900 cursor-pointer">Kids</li>
+          <Link className="mr-5 hover:text-gray-900 cursor-pointer">Mens</Link>
+          <Link className="mr-5 hover:text-gray-900 cursor-pointer">Kids</Link>
         </ul>
         <button className="absolute top-[75px] z-10 right-0 text-white py-2 px-4 cursor-pointer">
         <RxCross2  size ={30} onClick={ToggleChange}/>
