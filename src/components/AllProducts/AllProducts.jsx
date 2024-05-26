@@ -5,11 +5,32 @@ import login from "../../assets/login.png";
 
 const AllProducts = () => {
 
+  const [allProducts, setAllProducts] = useState([])
+  const [originalProducts, setOriginalProducts] = useState([])
   const [allCategory, setAllCategory] = useState([])
-  const [products, setProducts] = useState([])
+
 
   const [selectProducts, setSelectProducts] =useState("")
 
+
+
+
+
+
+// AllProducts
+  useEffect(()=>{
+    const AllProducts = async () => {
+    const res = await axios ("https://dummyjson.com/products")
+    setAllProducts(res.data.products)
+    setOriginalProducts(res.data.products)
+    }
+
+    AllProducts();
+  },[])
+
+
+
+  // product category
   useEffect(()=> {
     const getAllProductsCategory = async () => {
       try{
@@ -24,29 +45,15 @@ const AllProducts = () => {
     getAllProductsCategory();
   },[])
 
-  const filterProducts = (allProducts) => {
-    setSelectProducts(allProducts)
+  const filterProducts = (selectcategory) => {
+    setSelectProducts(selectcategory);
+
+    const data = selectcategory? originalProducts.filter((filterItem) =>filterItem.category === selectcategory)
+     :originalProducts
+    setAllProducts(data)
    }
 
-  useEffect(()=> {
-    const getAllProducts = async () => {
-      try{
-        if(selectProducts){
-          const res = await axios(
-            `https://dummyjson.com/products/category/${selectProducts}`
-          );
-          setProducts(res.data.products);
-        }
-        
-      }catch(error){
-        console.log(error)
-      }
-     
-    };
-    getAllProducts();
-  },[selectProducts]);
-
-
+   
 
   return (
     <>
@@ -64,50 +71,59 @@ const AllProducts = () => {
 
       {/* products category section */}
      <div className=" flex gap-3 flex-wrap ">
+      <select onChange={(e) => filterProducts(e.target.value)}>
+        <option>
+          Filter by Category
+        </option>
+      
+
+
+
+
       {
-        allCategory.map((allProducts, index) =>(
-          <div className=" border" key={index}>
-          <button className="border bg-black text-white px-2 py-2 mt-5" onClick={()=>filterProducts(allProducts.slug)}>
-            {allProducts.name}
-            </button>
-            </div>
+        allCategory
+        .filter(
+          (filterItem) => !["lighting", "motorcycle", "automotive", "furniture"]
+          .includes(filterItem)
+        )
+        .map((item, index) =>(
+          
+          // eslint-disable-next-line react/jsx-key
+          <option value={item.name}>
+          {item.name}
+            </option>
+          
            
         ))
       }
-     
+      </select>
       </div>
-      {/* products section */}
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
 
-        <div className="flex gap-4">
-        {products.map((item) => (
-           // eslint-disable-next-line react/jsx-key
-           <div className="lg:w-1/4 md:w-1/2 p-4 w-full border-4">
-           <a className="block relative h-48 rounded overflow-hidden">
-             <img
-              alt="ecommerce"
-              className="object-cover object-center w-full h-full block"
-               src={item.thumbnail}
-               />
-           </a>
-           <div className="mt-4">
+  {/* All product */}
+     
+     <div className="flex gap-4 flex-wrap justify-center">
+      {allProducts.map((AllItems, index)=>(
+          <div key={index} className="border">
+            <img src={AllItems.thumbnail} alt="" 
+              className="object-cover object-center  block"/>
+            <div className="mt-4">
              <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-               Title:  {item.title}
+               Title: {AllItems.title}
               </h3>
              <h2 className="text-gray-900 title-font text-lg font-medium">
-               Rating : {item.rating}
+               Rating : {AllItems.rating}
               </h2>
              <p className="mt-1">
-              Price:  {item.price} Rs.</p>
+              Price:  {AllItems.price} Rs.</p>
            </div>
-         </div>
-         ) ) }
+           <p className="mt-1">
+              Price:  {AllItems.price} Rs.</p>
+            </div>
+        ))
+      }
+     </div>
 
-      </div>
-        </div>
-      </section>
-     
+    
     </Layout>
     </>
   )
