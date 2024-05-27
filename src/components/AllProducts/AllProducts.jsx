@@ -8,14 +8,7 @@ const AllProducts = () => {
   const [allProducts, setAllProducts] = useState([])
   const [originalProducts, setOriginalProducts] = useState([])
   const [allCategory, setAllCategory] = useState([])
-
-
   const [selectProducts, setSelectProducts] =useState("")
-
-
-
-
-
 
 // AllProducts
   useEffect(()=>{
@@ -28,8 +21,6 @@ const AllProducts = () => {
     AllProducts();
   },[])
 
-
-
   // product category
   useEffect(()=> {
     const getAllProductsCategory = async () => {
@@ -40,18 +31,28 @@ const AllProducts = () => {
         console.log(error)
       }
     };
-
-    
     getAllProductsCategory();
   },[])
+  console.log(allCategory)
 
-  const filterProducts = (selectcategory) => {
+  const filterProducts = async(selectcategory) => {
     setSelectProducts(selectcategory);
+    setSelectProducts(selectcategory);
+    let category = selectcategory.split(" ").join("-").toLowerCase();
+    console.log(category);
+    const json = await axios.get(`https://dummyjson.com/products/category/${category}`);
+    console.log(json);
+    
+    setAllProducts(json.data.products);
+  }
 
-    const data = selectcategory? originalProducts.filter((filterItem) =>filterItem.category === selectcategory)
-     :originalProducts
-    setAllProducts(data)
-   }
+
+  //   const data = selectcategory? originalProducts.filter((filterItem) =>filterItem.category === selectcategory.toLowerCase() )
+  //    :originalProducts
+  //   setAllProducts(data)
+ 
+  //  }
+  // //  console.log()
 
    
 
@@ -96,6 +97,16 @@ const AllProducts = () => {
            
         ))
       }
+      {/* {
+        allCategory.map((item , index) => {
+          return (
+            <option value={item}>
+          {item}
+            </option>
+          )
+          
+        })
+      } */}
       </select>
       </div>
 
